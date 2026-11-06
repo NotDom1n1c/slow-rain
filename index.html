@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slow Rain | 12,483 listening</title>
+<meta name="description" content="Rain on a window, for sleep and deep work.">
+<meta name="theme-color" content="#0a0c12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --cream: #f3e7d3; --soft: #c9bfae; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #07090e; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  canvas:active { cursor: grabbing; }
+
+  .ui {
+    position: fixed; left: clamp(36px, 6.5vw, 96px); bottom: clamp(96px, 18vh, 170px); z-index: 2;
+    width: min(330px, calc(100vw - 72px));
+    color: var(--cream); font: 400 15px/1.4 Figtree, system-ui, sans-serif;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .75), 0 0 2px rgba(0, 0, 0, .6);
+    transition: opacity 2.4s ease;
+  }
+  body.after .ui > :not(.count) { opacity: 0; pointer-events: none; }
+  .ui > * { transition: opacity 2.4s ease; }
+
+  h1 { font: 400 clamp(38px, 5.4vw, 62px)/1.02 "Young Serif", Georgia, serif; margin: 0 0 8px; letter-spacing: -.01em; }
+  .tag { margin: 0 0 20px; color: var(--soft); font-size: 16px; }
+
+  .row { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+  #play {
+    flex: none; width: 62px; height: 62px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--cream); display: grid; place-items: center; box-shadow: 0 4px 22px rgba(0, 0, 0, .5);
+    transition: transform .2s;
+  }
+  #play:hover { transform: scale(1.06); }
+  #play:focus-visible, input:focus-visible, #leave:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  #play i { display: block; width: 0; height: 0; margin-left: 5px; border-left: 17px solid #15110c; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+  #play.on i { width: 17px; height: 20px; margin: 0; border: 0; border-left: 6px solid #15110c; border-right: 6px solid #15110c; box-sizing: border-box; }
+  .focus { font-size: 15px; color: var(--soft); }
+  .focus b { display: block; font: 400 26px/1.15 "Young Serif", Georgia, serif; color: var(--cream); font-variant-numeric: tabular-nums; }
+
+  .mix { display: grid; grid-template-columns: 74px 1fr; gap: 7px 12px; align-items: center; margin-bottom: 16px; font-size: 14px; color: var(--soft); }
+  input[type=range] { width: 100%; accent-color: var(--cream); height: 16px; margin: 0; cursor: pointer; }
+
+  .count { display: flex; align-items: center; gap: 9px; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .count i { width: 8px; height: 8px; border-radius: 50%; background: #a8e6a1; box-shadow: 0 0 10px #a8e6a1; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .4; } }
+  .hint { margin: 8px 0 0; color: var(--soft); font-size: 13.5px; }
+
+  #leave {
+    position: fixed; right: clamp(36px, 6.5vw, 96px); bottom: clamp(96px, 18vh, 170px); z-index: 2;
+    appearance: none; background: none; border: 0; padding: 8px; cursor: pointer;
+    color: var(--soft); font: 400 15px Figtree, system-ui, sans-serif; text-decoration: underline; text-underline-offset: 4px;
+    opacity: 0; pointer-events: none; transition: opacity 3s ease;
+  }
+  body.done #leave { opacity: 1; pointer-events: auto; }
+
+  @media (max-height: 620px) {
+    .ui { bottom: 54px; } .tag, .hint { display: none; } .row { margin-bottom: 10px; } .mix { margin-bottom: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .count i { animation: none; } }
+</style>
+</head>
+<body>
+<canvas id="c" role="img" aria-label="Rain running down a window at night, with a city behind it."></canvas>
+<section class="ui" aria-label="Rain player">
+  <h1>Slow Rain</h1>
+  <p class="tag">Rain on a window, for sleep and deep work.</p>
+  <div class="row">
+    <button id="play" aria-label="Play rain" aria-pressed="false"><i></i></button>
+    <div class="focus">Focus<b id="timer">25:00</b></div>
+  </div>
+  <div class="mix">
+    <label for="mRain">Rain</label><input id="mRain" type="range" min="0" max="100" value="80">
+    <label for="mThunder" id="lThunder">Thunder</label><input id="mThunder" type="range" min="0" max="100" value="55">
+    <label for="mCity" id="lCity">City</label><input id="mCity" type="range" min="0" max="100" value="35">
+  </div>
+  <p class="count"><i></i><span id="count">12,483 listening now</span></p>
+  <p class="hint">Drag to wipe the glass. Click it for thunder. Contains flashes of lightning.</p>
+</section>
+<button id="leave">Leave</button>
+<script src="app.js?v=5"></script>
+</body>
+</html>
